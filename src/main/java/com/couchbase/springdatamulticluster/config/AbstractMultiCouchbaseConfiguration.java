@@ -30,6 +30,7 @@ public abstract class AbstractMultiCouchbaseConfiguration extends AbstractCouchb
 
     // override methods for the default user/bucket
 
+    //Step 0 - due to the known issue XXX
     @Bean(
             name = {"couchbaseClientFactory"}
     )
@@ -38,6 +39,7 @@ public abstract class AbstractMultiCouchbaseConfiguration extends AbstractCouchb
     public CouchbaseClientFactory couchbaseClientFactory(final Cluster couchbaseCluster) {
         return new SimpleCouchbaseClientFactory(couchbaseCluster, this.getBucketName(), this.getScopeName());
     }
+    /////////////////////////////////////////
 
     @Bean(
             name = {"reactiveCouchbaseRepositoryOperationsMapping"}
@@ -70,7 +72,6 @@ public abstract class AbstractMultiCouchbaseConfiguration extends AbstractCouchb
     @Bean(
             destroyMethod = "shutdown"
     )
-    @DependsOn("couchbaseClusterEnvironment")
     public ClusterEnvironment couchbaseSecondaryClusterEnvironment(ClusterEnvironment couchbaseClusterEnvironment) {
         ClusterEnvironment.Builder builder = ClusterEnvironment.builder();
         builder.jsonSerializer(couchbaseClusterEnvironment.jsonSerializer());

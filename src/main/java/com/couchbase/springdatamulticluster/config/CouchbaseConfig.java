@@ -8,11 +8,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 import org.springframework.data.couchbase.core.ReactiveCouchbaseTemplate;
+import org.springframework.data.couchbase.repository.config.EnableCouchbaseRepositories;
 import org.springframework.data.couchbase.repository.config.ReactiveRepositoryOperationsMapping;
 import org.springframework.data.couchbase.repository.config.RepositoryOperationsMapping;
 
 @Slf4j
-//@EnableCouchbaseRepositories
 @EnableConfigurationProperties(CouchbaseProperties.class)
 @Configuration
 public class CouchbaseConfig extends AbstractMultiCouchbaseConfiguration {
@@ -41,7 +41,7 @@ public class CouchbaseConfig extends AbstractMultiCouchbaseConfiguration {
 
     @Override
     public String getBucketName() {
-        return properties.getPrimary().getName();
+            return properties.getPrimary().getName();
     }
 
     @Override
@@ -64,6 +64,7 @@ public class CouchbaseConfig extends AbstractMultiCouchbaseConfiguration {
     public void configureRepositoryOperationsMapping(RepositoryOperationsMapping baseMapping) {
         try {
             CouchbaseTemplate secondaryCouchbaseTemplate = context.getBean("secondaryCouchbaseTemplate", CouchbaseTemplate.class);
+
             baseMapping.mapEntity(EntityB.class, secondaryCouchbaseTemplate);
             baseMapping.map(EntityBRepository.class, secondaryCouchbaseTemplate);
         } catch (Exception e) {
